@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Compound Profit Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 40px;
+      background: #f9f9f9;
+      color: #333;
+    }
+    h2 {
+      color: #2c3e50;
+    }
+    #description {
+      max-width: 900px;
+      margin: 0 auto 30px auto;
+      font-size: 16px;
+      line-height: 1.5;
+      background: #eafaf1;
+      padding: 15px;
+      border-left: 5px solid #2ecc71;
+      border-radius: 5px;
+    }
+    .main-content {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      flex-shrink: 0;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 15px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #219150;
+    }
+    #result {
+      margin-top: 10px;
+      width: 400px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: right;
+    }
+    th {
+      background-color: #ecf0f1;
+    }
+  </style>
+</head>
+<body>
+
+<div id="description">
+  <strong>What is this?</strong><br>
+  This calculator estimates your profit growth over time using <strong>compound interest</strong>. Enter your initial profit, annual growth rate, and number of years to see year-wise projections and the total profit accumulated.
+</div>
+
+<div class="main-content">
+  <div class="container">
+    <h2>Compound Profit Calculator</h2>
+
+    <label for="initial">Initial Profit (₹):</label>
+    <input type="number" id="initial" placeholder="e.g. 6736">
+
+    <label for="rate">Annual Growth Rate (%):</label>
+    <input type="number" id="rate" placeholder="e.g. 10">
+
+    <label for="years">Number of Years:</label>
+    <input type="number" id="years" placeholder="e.g. 10">
+
+    <button onclick="calculateProfit()">Calculate</button>
+  </div>
+
+  <div id="result"></div>
+</div>
+
+<script>
+  function calculateProfit() {
+    const initial = parseFloat(document.getElementById('initial').value);
+    const rate = parseFloat(document.getElementById('rate').value) / 100;
+    const years = parseInt(document.getElementById('years').value);
+
+    if (isNaN(initial) || isNaN(rate) || isNaN(years)) {
+      alert("Please enter valid numbers.");
+      return;
+    }
+
+    let output = '<h2>Profit Projection</h2>';
+    output += '<table><thead><tr><th>Year</th><th>Profit (₹)</th></tr></thead><tbody>';
+    let total = 0;
+
+    for (let i = 1; i <= years; i++) {
+      const profit = +(initial * Math.pow(1 + rate, i)).toFixed(2);
+      output += `<tr><td>${i}</td><td>${profit.toLocaleString('en-IN')}</td></tr>`;
+      total += profit;
+    }
+
+    output += `</tbody><tfoot><tr><th>Total</th><th>${total.toLocaleString('en-IN', {minimumFractionDigits: 2})}</th></tr></tfoot></table>`;
+
+    document.getElementById('result').innerHTML = output;
+  }
+</script>
+
+</body>
+</html>
